@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#F8F5FF"
-    android:padding="16dp">
+    android:background="#F8F5FF">
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="4"
-        android:alignmentMode="alignMargins"
-        android:useDefaultMargins="true"
-        android:layout_gravity="center">
+        app:columnCount="3"
+        app:rowCount="4"
+        app:alignmentMode="alignMargins"
+        app:useDefaultMargins="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 12 card placeholders -->
-        <ImageView android:id="@+id/card1" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card2" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card3" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card4" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card5" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card6" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card7" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card8" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card9" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card10" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card11" style="@style/MemoryCardStyle" />
-        <ImageView android:id="@+id/card12" style="@style/MemoryCardStyle" />
+        <!-- Row 0 -->
+        <ImageView android:id="@+id/card1" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="0" />
+        <ImageView android:id="@+id/card2" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="1" />
+        <ImageView android:id="@+id/card3" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="2" />
+
+        <!-- Row 1 -->
+        <ImageView android:id="@+id/card4" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="0" />
+        <ImageView android:id="@+id/card5" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="1" />
+        <ImageView android:id="@+id/card6" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="2" />
+
+        <!-- Row 2 -->
+        <ImageView android:id="@+id/card7" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="0" />
+        <ImageView android:id="@+id/card8" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="1" />
+        <ImageView android:id="@+id/card9" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="2" />
+
+        <!-- Row 3 -->
+        <ImageView android:id="@+id/card10" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="0" />
+        <ImageView android:id="@+id/card11" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="1" />
+        <ImageView android:id="@+id/card12" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="2" />
 
     </androidx.gridlayout.widget.GridLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
