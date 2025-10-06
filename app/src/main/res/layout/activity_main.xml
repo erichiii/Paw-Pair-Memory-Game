@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#F8F5FF"
+    android:padding="16dp">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="4"
+        android:alignmentMode="alignMargins"
+        android:useDefaultMargins="true"
+        android:layout_gravity="center">
+
+        <!-- 12 card placeholders -->
+        <ImageView android:id="@+id/card1" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card2" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card3" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card4" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card5" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card6" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card7" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card8" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card9" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card10" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card11" style="@style/MemoryCardStyle" />
+        <ImageView android:id="@+id/card12" style="@style/MemoryCardStyle" />
+
+    </androidx.gridlayout.widget.GridLayout>
+</LinearLayout>
