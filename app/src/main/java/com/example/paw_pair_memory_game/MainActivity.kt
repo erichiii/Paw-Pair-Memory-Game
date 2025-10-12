@@ -3,14 +3,15 @@ package com.example.paw_pair_memory_game
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.toColorInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         cardIcons = (icons + icons).shuffled()
-        val violetColor = Color.parseColor("#9C27B0")
+        val violetColor = "#9C27B0".toColorInt()
 
         for (i in imageViews.indices) {
             val imageView = imageViews[i]
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 imageView.setBackgroundResource(cardFront)
                 val iconRes = imageView.tag as Int
                 val drawable = ContextCompat.getDrawable(applicationContext, iconRes)?.mutate()
-                drawable?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_IN)
                 imageView.setImageDrawable(drawable)
                 oa2.start()
             }
