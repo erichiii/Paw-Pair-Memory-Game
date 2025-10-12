@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
         timerTextView = findViewById(R.id.timer_textview)
         scoreTextView = findViewById(R.id.score_textview)
+        scoreTextView.text = getString(R.string.score_text, score)
 
         val (rows, cols, timeLimit) = when (level) {
             "easy" -> Triple(2, 2, 30000L)
