@@ -9,34 +9,13 @@
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:columnCount="3"
-        app:rowCount="4"
+        android:layout_margin="16dp"
         app:alignmentMode="alignMargins"
         app:useDefaultMargins="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Row 0 -->
-        <ImageView android:id="@+id/card1" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="0" />
-        <ImageView android:id="@+id/card2" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="1" />
-        <ImageView android:id="@+id/card3" style="@style/MemoryCardStyle" app:layout_row="0" app:layout_column="2" />
-
-        <!-- Row 1 -->
-        <ImageView android:id="@+id/card4" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="0" />
-        <ImageView android:id="@+id/card5" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="1" />
-        <ImageView android:id="@+id/card6" style="@style/MemoryCardStyle" app:layout_row="1" app:layout_column="2" />
-
-        <!-- Row 2 -->
-        <ImageView android:id="@+id/card7" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="0" />
-        <ImageView android:id="@+id/card8" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="1" />
-        <ImageView android:id="@+id/card9" style="@style/MemoryCardStyle" app:layout_row="2" app:layout_column="2" />
-
-        <!-- Row 3 -->
-        <ImageView android:id="@+id/card10" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="0" />
-        <ImageView android:id="@+id/card11" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="1" />
-        <ImageView android:id="@+id/card12" style="@style/MemoryCardStyle" app:layout_row="3" app:layout_column="2" />
 
     </androidx.gridlayout.widget.GridLayout>
 

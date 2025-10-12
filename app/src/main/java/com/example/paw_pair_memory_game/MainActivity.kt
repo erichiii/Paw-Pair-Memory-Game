@@ -6,18 +6,20 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.toColorInt
+import androidx.gridlayout.widget.GridLayout
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var imageViews: MutableList<ImageView>
     private lateinit var cardIcons: List<Int>
-    private val isFlipped = BooleanArray(12) { false }
+    private lateinit var isFlipped: BooleanArray
     private val cardBack = R.drawable.card_back
     private val cardFront = R.drawable.card_outline
 
@@ -28,12 +30,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val gridLayout = findViewById<androidx.gridlayout.widget.GridLayout>(R.id.gridLayout)
-        imageViews = mutableListOf()
+        val level = intent.getStringExtra("level") ?: "easy"
+        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
 
-        for (i in 0 until gridLayout.childCount) {
-            imageViews.add(gridLayout.getChildAt(i) as ImageView)
+        val (rows, cols) = when (level) {
+            "easy" -> Pair(2, 2)
+            "medium" -> Pair(4, 3)
+            "hard" -> Pair(5, 4)
+            else -> Pair(2, 2)
         }
+
+        gridLayout.rowCount = rows
+        gridLayout.columnCount = cols
+        val numCards = rows * cols
+        isFlipped = BooleanArray(numCards)
 
         val icons = mutableListOf(
             android.R.drawable.ic_dialog_email,
@@ -41,17 +51,62 @@ class MainActivity : AppCompatActivity() {
             android.R.drawable.ic_dialog_dialer,
             android.R.drawable.ic_dialog_map,
             android.R.drawable.ic_dialog_alert,
-            android.R.drawable.ic_menu_camera
+            android.R.drawable.ic_menu_camera,
+            android.R.drawable.ic_menu_add,
+            android.R.drawable.ic_menu_call,
+            android.R.drawable.ic_menu_delete,
+            android.R.drawable.ic_menu_edit,
+            android.R.drawable.ic_menu_gallery,
+            android.R.drawable.ic_menu_manage
         )
 
-        cardIcons = (icons + icons).shuffled()
+        cardIcons = (icons.take(numCards / 2) + icons.take(numCards / 2)).shuffled()
         val violetColor = "#9C27B0".toColorInt()
+        imageViews = mutableListOf()
 
-        for (i in imageViews.indices) {
-            val imageView = imageViews[i]
+        val displayMetrics = resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+
+        val gridMarginInDp = 16f
+        val gridMarginInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, gridMarginInDp, displayMetrics
+        ).toInt()
+
+        val cardMarginInDp = 8f // Default margin for useDefaultMargins
+        val cardMarginInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, cardMarginInDp, displayMetrics
+        ).toInt()
+
+        val availableWidth = screenWidth - (2 * gridMarginInPixels)
+        
+        val calculatedCardWidth = (availableWidth - ((cols - 1) * cardMarginInPixels)) / cols
+
+        val desiredCardSizeInDp = 100f
+        val desiredCardSizeInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, desiredCardSizeInDp, displayMetrics
+        ).toInt()
+
+        val cardSize = desiredCardSizeInPixels.coerceAtMost(calculatedCardWidth)
+
+        val paddingInDp = 8f
+        val paddingInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, paddingInDp, displayMetrics
+        ).toInt()
+
+        for (i in 0 until numCards) {
+            val imageView = ImageView(this)
+            val params = GridLayout.LayoutParams()
+            params.width = cardSize
+            params.height = cardSize
+            imageView.layoutParams = params
+            
             imageView.setBackgroundResource(cardBack)
+            imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            imageView.setPadding(paddingInPixels, paddingInPixels, paddingInPixels, paddingInPixels)
             imageView.setImageDrawable(null) // Ensure card is blank initially
             imageView.tag = cardIcons[i]
+            imageViews.add(imageView)
+            gridLayout.addView(imageView)
 
             imageView.setOnClickListener {
                 // Ignore clicks if we are checking a pair or the card is already flipped up
