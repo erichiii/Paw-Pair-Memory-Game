@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 250
-        oa2.duration = 250
+        oa1.duration = 150
+        oa2.duration = 150
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
@@ -125,8 +125,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 250
-        oa2.duration = 250
+        oa1.duration = 150
+        oa2.duration = 150
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
