@@ -64,20 +64,28 @@ class MainActivity : AppCompatActivity() {
         val numCards = rows * cols
         isFlipped = BooleanArray(numCards)
 
-        val icons = mutableListOf(
-            android.R.drawable.ic_dialog_email,
-            android.R.drawable.ic_dialog_info,
-            android.R.drawable.ic_dialog_dialer,
-            android.R.drawable.ic_dialog_map,
-            android.R.drawable.ic_dialog_alert,
-            android.R.drawable.ic_menu_camera,
-            android.R.drawable.ic_menu_add,
-            android.R.drawable.ic_menu_call,
-            android.R.drawable.ic_menu_delete,
-            android.R.drawable.ic_menu_edit,
-            android.R.drawable.ic_menu_gallery,
-            android.R.drawable.ic_menu_manage
-        )
+        val icons = if (level == "easy") {
+            mutableListOf(
+                R.drawable.smiling_cat,
+                R.drawable.owo,
+                R.drawable.shocked
+            )
+        } else {
+            mutableListOf(
+                android.R.drawable.ic_dialog_email,
+                android.R.drawable.ic_dialog_info,
+                android.R.drawable.ic_dialog_dialer,
+                android.R.drawable.ic_dialog_map,
+                android.R.drawable.ic_dialog_alert,
+                android.R.drawable.ic_menu_camera,
+                android.R.drawable.ic_menu_add,
+                android.R.drawable.ic_menu_call,
+                android.R.drawable.ic_menu_delete,
+                android.R.drawable.ic_menu_edit,
+                android.R.drawable.ic_menu_gallery,
+                android.R.drawable.ic_menu_manage
+            )
+        }
 
         cardIcons = (icons.take(numCards / 2) + icons.take(numCards / 2)).shuffled()
         val violetColor = "#9C27B0".toColorInt()
@@ -171,8 +179,12 @@ class MainActivity : AppCompatActivity() {
                 imageView.setBackgroundResource(cardFront)
                 val iconRes = imageView.tag as Int
                 val drawable = ContextCompat.getDrawable(applicationContext, iconRes)?.mutate()
-                drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_IN)
-                imageView.setImageDrawable(drawable)
+                if (level == "easy") {
+                    imageView.setImageDrawable(drawable)
+                } else {
+                    drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_IN)
+                    imageView.setImageDrawable(drawable)
+                }
                 oa2.start()
             }
         })
