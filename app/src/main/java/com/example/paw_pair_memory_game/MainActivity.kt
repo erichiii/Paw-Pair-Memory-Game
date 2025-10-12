@@ -2,6 +2,7 @@ package com.example.paw_pair_memory_game
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
@@ -111,12 +112,18 @@ class MainActivity : AppCompatActivity() {
             TypedValue.COMPLEX_UNIT_DIP, paddingInDp, displayMetrics
         ).toInt()
 
+        val initialElevationInDp = 8f
+        val initialElevationInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, initialElevationInDp, displayMetrics
+        )
+
         for (i in 0 until numCards) {
             val imageView = ImageView(this)
             val params = GridLayout.LayoutParams()
             params.width = cardSize
             params.height = cardSize
             imageView.layoutParams = params
+            imageView.elevation = initialElevationInPixels
 
             imageView.setBackgroundResource(cardBack)
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -192,13 +199,16 @@ class MainActivity : AppCompatActivity() {
             score += 100
             scoreTextView.text = getString(R.string.score_text, score)
 
-            card1.isClickable = false
-            card2.isClickable = false
-            flippedCards.clear()
-            isChecking = false
+            animateMatch(card1)
+            animateMatch(card2) {
+                card1.isClickable = false
+                card2.isClickable = false
+                flippedCards.clear()
+                isChecking = false
 
-            if (pairsFound == cardIcons.size / 2) {
-                endGame(true)
+                if (pairsFound == cardIcons.size / 2) {
+                    endGame(true)
+                }
             }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -210,6 +220,30 @@ class MainActivity : AppCompatActivity() {
                 isChecking = false
             }, 1000)
         }
+    }
+
+    private fun animateMatch(card: ImageView, onEnd: (() -> Unit)? = null) {
+        val animatorSet = AnimatorSet()
+        val scaleX = ObjectAnimator.ofFloat(card, "scaleX", 1f, 1.1f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(card, "scaleY", 1f, 1.1f, 1f)
+
+        val peakElevationInDp = 24f
+        val peakElevationInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, peakElevationInDp, resources.displayMetrics
+        )
+
+        val elevationAnimator = ObjectAnimator.ofFloat(card, "elevation", card.elevation, peakElevationInPixels, card.elevation)
+
+        animatorSet.playTogether(scaleX, scaleY, elevationAnimator)
+        animatorSet.duration = 600
+        onEnd?.let {
+            animatorSet.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    it()
+                }
+            })
+        }
+        animatorSet.start()
     }
 
     private fun flipBack(imageView: ImageView, index: Int) {
