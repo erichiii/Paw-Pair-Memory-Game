@@ -65,11 +65,20 @@ class MainActivity : AppCompatActivity() {
         isFlipped = BooleanArray(numCards)
 
         val icons = if (level == "easy") {
-            mutableListOf(
+            val allIcons = mutableListOf(
                 R.drawable.smiling_cat,
                 R.drawable.owo,
-                R.drawable.shocked
+                R.drawable.shocked,
+                R.drawable.eyy_cat,
+                R.drawable.good_boy_cat,
+                R.drawable.laughing_car,
+                R.drawable.startled_car,
+                R.drawable.stressed_cat,
+                R.drawable.judgmental_car,
+                R.drawable.call_center_car
             )
+            allIcons.shuffle()
+            allIcons
         } else {
             mutableListOf(
                 android.R.drawable.ic_dialog_email,
