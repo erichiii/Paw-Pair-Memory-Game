@@ -124,11 +124,6 @@ class MainActivity : AppCompatActivity() {
 
         val cardSize = desiredCardSizeInPixels.coerceAtMost(calculatedCardWidth)
 
-        val paddingInDp = 8f
-        val paddingInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, paddingInDp, displayMetrics
-        ).toInt()
-
         val initialElevationInDp = 8f
         val initialElevationInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, initialElevationInDp, displayMetrics
@@ -143,8 +138,8 @@ class MainActivity : AppCompatActivity() {
             imageView.elevation = initialElevationInPixels
 
             imageView.setBackgroundResource(cardBack)
-            imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            imageView.setPadding(paddingInPixels, paddingInPixels, paddingInPixels, paddingInPixels)
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            imageView.setPadding(0, 0, 0, 0)
             imageView.setImageDrawable(null) // Ensure card is blank initially
             imageView.tag = cardIcons[i]
             imageViews.add(imageView)
