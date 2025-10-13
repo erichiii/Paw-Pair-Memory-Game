@@ -15,9 +15,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.core.graphics.toColorInt
 import androidx.gridlayout.widget.GridLayout
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardIcons: List<Int>
     private lateinit var isFlipped: BooleanArray
     private val cardBack = R.drawable.card_back_1
-    private val cardFront = R.drawable.card_front
+    private val cardFront = R.drawable.card_front_2
 
     private val flippedCards = mutableListOf<ImageView>()
     private var isChecking = false
@@ -64,40 +61,22 @@ class MainActivity : AppCompatActivity() {
         val numCards = rows * cols
         isFlipped = BooleanArray(numCards)
 
-        val icons = if (level == "easy") {
-            val allIcons = mutableListOf(
-                R.drawable.smiling_cat,
-                R.drawable.owo,
-                R.drawable.shocked,
-                R.drawable.eyy_cat,
-                R.drawable.good_boy_cat,
-                R.drawable.laughing_car,
-                R.drawable.startled_car,
-                R.drawable.stressed_cat,
-                R.drawable.judgmental_car,
-                R.drawable.call_center_car
-            )
-            allIcons.shuffle()
-            allIcons
-        } else {
-            mutableListOf(
-                android.R.drawable.ic_dialog_email,
-                android.R.drawable.ic_dialog_info,
-                android.R.drawable.ic_dialog_dialer,
-                android.R.drawable.ic_dialog_map,
-                android.R.drawable.ic_dialog_alert,
-                android.R.drawable.ic_menu_camera,
-                android.R.drawable.ic_menu_add,
-                android.R.drawable.ic_menu_call,
-                android.R.drawable.ic_menu_delete,
-                android.R.drawable.ic_menu_edit,
-                android.R.drawable.ic_menu_gallery,
-                android.R.drawable.ic_menu_manage
-            )
-        }
+        val allIcons = mutableListOf(
+            R.drawable.smiling_cat,
+            R.drawable.owo,
+            R.drawable.shocked,
+            R.drawable.eyy_cat,
+            R.drawable.good_boy_cat,
+            R.drawable.laughing_car,
+            R.drawable.startled_car,
+            R.drawable.stressed_cat,
+            R.drawable.judgmental_car,
+            R.drawable.call_center_car
+        )
+        allIcons.shuffle()
+        val icons = allIcons
 
         cardIcons = (icons.take(numCards / 2) + icons.take(numCards / 2)).shuffled()
-        val violetColor = "#9C27B0".toColorInt()
         imageViews = mutableListOf()
 
         val displayMetrics = resources.displayMetrics
@@ -147,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
             imageView.setOnClickListener {
                 if (!isChecking && !isFlipped[i]) {
-                    flipCard(imageView, i, violetColor)
+                    flipCard(imageView, i)
                 }
             }
         }
@@ -167,7 +146,7 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun flipCard(imageView: ImageView, index: Int, color: Int) {
+    private fun flipCard(imageView: ImageView, index: Int) {
         isFlipped[index] = true
         flippedCards.add(imageView)
 
@@ -183,12 +162,7 @@ class MainActivity : AppCompatActivity() {
                 imageView.setBackgroundResource(cardFront)
                 val iconRes = imageView.tag as Int
                 val drawable = ContextCompat.getDrawable(applicationContext, iconRes)?.mutate()
-                if (level == "easy") {
-                    imageView.setImageDrawable(drawable)
-                } else {
-                    drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_IN)
-                    imageView.setImageDrawable(drawable)
-                }
+                imageView.setImageDrawable(drawable)
                 oa2.start()
             }
         })
