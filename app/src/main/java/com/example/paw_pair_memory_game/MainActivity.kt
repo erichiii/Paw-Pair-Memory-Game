@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardIcons: List<Int>
     private lateinit var isFlipped: BooleanArray
     private val cardBack = R.drawable.card_back_1
-    private val cardFront = R.drawable.card_outline
+    private val cardFront = R.drawable.card_front
 
     private val flippedCards = mutableListOf<ImageView>()
     private var isChecking = false
