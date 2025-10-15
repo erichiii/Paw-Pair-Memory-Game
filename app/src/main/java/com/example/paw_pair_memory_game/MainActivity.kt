@@ -271,7 +271,7 @@ class MainActivity : AppCompatActivity() {
                 isAnimating = true
                 flipBack(card1, index1, onFlippedBack)
                 flipBack(card2, index2, onFlippedBack)
-            }, 1000)
+            }, 350)
         }
     }
 
