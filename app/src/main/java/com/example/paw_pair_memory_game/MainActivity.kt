@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity() {
                 val index2 = imageViews.indexOf(card2)
                 flipBack(card1, index1)
                 flipBack(card2, index2)
-            }, 1000)
+            }, 500)
         }
     }
 
