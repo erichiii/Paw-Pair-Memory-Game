@@ -12,6 +12,7 @@ import android.os.Looper
 import android.util.TypedValue
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var isAnimating = false
 
     private lateinit var timerTextView: TextView
+    private lateinit var timerProgressBar: ProgressBar
     private lateinit var scoreTextView: TextView
 
     private var score = 0
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         level = intent.getStringExtra("level") ?: "easy"
         gridLayout = findViewById(R.id.gridLayout)
         timerTextView = findViewById(R.id.timer_textview)
+        timerProgressBar = findViewById(R.id.timer_progress_bar)
         scoreTextView = findViewById(R.id.score_textview)
         scoreTextView.text = score.toString()
 
@@ -232,14 +235,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startTimer(timeLimit: Long) {
+        timerProgressBar.max = (timeLimit / 1000).toInt()
         countDownTimer = object : CountDownTimer(timeLimit, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeft = millisUntilFinished / 1000
-                timerTextView.text = getString(R.string.timer_text, timeLeft.toInt())
+                timerTextView.text = timeLeft.toInt().toString()
+                timerProgressBar.progress = timeLeft.toInt()
             }
 
             override fun onFinish() {
-                timerTextView.text = getString(R.string.timer_text, 0)
+                timerTextView.text = "0"
+                timerProgressBar.progress = 0
                 endGame(false)
             }
         }.start()
@@ -254,8 +260,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 100
-        oa2.duration = 100
+        oa1.duration = 50
+        oa2.duration = 50
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
@@ -295,8 +301,10 @@ class MainActivity : AppCompatActivity() {
 
             card1.isClickable = false
             card2.isClickable = false
-            flippedCards.clear()
-            isChecking = false
+            Handler(Looper.getMainLooper()).postDelayed({
+                flippedCards.clear()
+                isChecking = false
+            }, 300)
 
             if (pairsFound == cardIcons.size / 2) {
                 endGame(true)
@@ -318,7 +326,7 @@ class MainActivity : AppCompatActivity() {
                 isAnimating = true
                 flipBack(card1, index1, onFlippedBack)
                 flipBack(card2, index2, onFlippedBack)
-            }, 400)
+            }, 600)
         }
     }
 
@@ -335,7 +343,7 @@ class MainActivity : AppCompatActivity() {
         val elevationAnimator = ObjectAnimator.ofFloat(card, "elevation", card.elevation, peakElevationInPixels, card.elevation)
 
         animatorSet.playTogether(scaleX, scaleY, elevationAnimator)
-        animatorSet.duration = 600
+        animatorSet.duration = 300
         animatorSet.start()
     }
 
@@ -345,8 +353,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 100
-        oa2.duration = 100
+        oa1.duration = 50
+        oa2.duration = 50
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {

@@ -6,31 +6,49 @@
     android:layout_height="match_parent"
     android:background="@drawable/in_game_background">
 
-    <ImageButton
-        android:id="@+id/pause_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <LinearLayout
+        android:id="@+id/timer_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/pause_button"
-        android:src="@android:drawable/ic_media_pause"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white" />
-
-    <TextView
-        android:id="@+id/timer_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Time: 60" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/pause_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/pause_button"
+            android:src="@android:drawable/ic_media_pause"
+            app:tint="@android:color/white" />
+
+        <ProgressBar
+            android:id="@+id/timer_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:progressDrawable="@drawable/custom_progress_bar" />
+
+        <TextView
+            android:id="@+id/timer_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableEndCompat="@android:drawable/ic_lock_idle_alarm"
+            android:drawablePadding="4dp"
+            app:drawableTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            tools:text="60" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/score_layout"
@@ -41,7 +59,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_textview">
+        app:layout_constraintTop_toBottomOf="@+id/timer_layout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:text="202311538 : Angel Letada"
+        android:text="@string/author_name"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
