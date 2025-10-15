@@ -54,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         scoreTextView = findViewById(R.id.score_textview)
         scoreTextView.text = score.toString()
 
+        SoundPlayer.initialize(this)
+        MusicManager.fadeTo(0.3f, 500)
+
         pauseButton = findViewById(R.id.pause_button)
         pauseButton.setOnClickListener {
             if (isPaused) {
@@ -154,6 +157,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun pauseGame() {
         isPaused = true
+        MusicManager.pause()
         countDownTimer.cancel()
         gridLayout.alpha = 0.5f
         pauseButton.setImageResource(android.R.drawable.ic_media_play)
@@ -180,9 +184,31 @@ class MainActivity : AppCompatActivity() {
     private fun resumeGame() {
         pauseDialog?.dismiss()
         isPaused = false
+        MusicManager.resume()
+        MusicManager.fadeTo(0.3f, 500)
         gridLayout.alpha = 1.0f
         startTimer(timeLeft * 1000)
         pauseButton.setImageResource(android.R.drawable.ic_media_pause)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!isPaused && !isChangingConfigurations) {
+            MusicManager.pause()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isPaused) {
+            MusicManager.resume()
+            MusicManager.fadeTo(0.3f, 500)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SoundPlayer.release()
     }
 
     private fun startTimer(timeLimit: Long) {
@@ -200,6 +226,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun flipCard(imageView: ImageView, index: Int) {
+        SoundPlayer.playCardClick()
         isAnimating = true
         isFlipped[index] = true
         flippedCards.add(imageView)
@@ -271,7 +298,7 @@ class MainActivity : AppCompatActivity() {
                 isAnimating = true
                 flipBack(card1, index1, onFlippedBack)
                 flipBack(card2, index2, onFlippedBack)
-            }, 350)
+            }, 500)
         }
     }
 
@@ -323,6 +350,7 @@ class MainActivity : AppCompatActivity() {
     private fun endGame(allPairsFound: Boolean) {
         countDownTimer.cancel()
         pauseButton.isClickable = false
+        MusicManager.fadeTo(1.0f, 1000)
 
         val timeBonus = if (allPairsFound) timeLeft * 5 else 0
         val difficultyMultiplier = when (level) {
@@ -334,14 +362,19 @@ class MainActivity : AppCompatActivity() {
 
         val finalScore = ((score + timeBonus) * difficultyMultiplier).toInt()
 
-        val message = if (allPairsFound) {
-            getString(R.string.congratulations_message, score, timeBonus.toInt(), finalScore)
+        val title: String
+        val message: String
+
+        if (allPairsFound) {
+            title = getString(R.string.you_win_title)
+            message = getString(R.string.congratulations_message, score, timeBonus.toInt(), difficultyMultiplier, finalScore)
         } else {
-            getString(R.string.time_up_message, finalScore)
+            title = getString(R.string.game_over_title)
+            message = getString(R.string.time_up_message, finalScore)
         }
 
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.game_over_title))
+            .setTitle(title)
             .setMessage(message)
             .setPositiveButton(getString(R.string.play_again)) { _, _ ->
                 val intent = Intent(this, MainActivity::class.java)

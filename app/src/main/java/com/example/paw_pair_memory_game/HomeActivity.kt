@@ -11,6 +11,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        MusicManager.start(this, volume = 1.0f)
+
         val easyButton = findViewById<ImageButton>(R.id.easy_button)
         val mediumButton = findViewById<ImageButton>(R.id.medium_button)
         val hardButton = findViewById<ImageButton>(R.id.hard_button)
@@ -31,6 +33,19 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("level", "hard")
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MusicManager.resume()
+        MusicManager.fadeTo(1.0f, 500)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!isChangingConfigurations) {
+            MusicManager.pause()
         }
     }
 }
