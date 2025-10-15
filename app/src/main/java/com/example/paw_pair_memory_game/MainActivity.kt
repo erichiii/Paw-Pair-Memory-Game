@@ -241,8 +241,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 150
-        oa2.duration = 150
+        oa1.duration = 100
+        oa2.duration = 100
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
@@ -290,10 +290,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
-                var flippedBack_count = 0
+                var flippedBackCount = 0
                 val onFlippedBack = {
-                    flippedBack_count++
-                    if (flippedBack_count == 2) {
+                    flippedBackCount++
+                    if (flippedBackCount == 2) {
                         flippedCards.clear()
                         isChecking = false
                         isAnimating = false
@@ -305,7 +305,7 @@ class MainActivity : AppCompatActivity() {
                 isAnimating = true
                 flipBack(card1, index1, onFlippedBack)
                 flipBack(card2, index2, onFlippedBack)
-            }, 500)
+            }, 400)
         }
     }
 
@@ -332,8 +332,8 @@ class MainActivity : AppCompatActivity() {
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
         val oa2 = ObjectAnimator.ofFloat(imageView, "rotationY", -90f, 0f)
 
-        oa1.duration = 150
-        oa2.duration = 150
+        oa1.duration = 100
+        oa2.duration = 100
 
         oa1.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
