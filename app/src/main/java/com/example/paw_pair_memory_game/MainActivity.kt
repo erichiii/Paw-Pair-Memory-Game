@@ -143,6 +143,9 @@ class MainActivity : AppCompatActivity() {
                 if (isPaused) return@setOnClickListener
                 if (!isChecking && !isFlipped[i] && flippedCards.size < 2) {
                     flipCard(imageView, i)
+                    if (flippedCards.size == 2) {
+                        isChecking = true
+                    }
                 }
             }
         }
@@ -220,7 +223,6 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
                 if (flippedCards.size == 2) {
-                    isChecking = true
                     checkForMatch()
                 }
             }
