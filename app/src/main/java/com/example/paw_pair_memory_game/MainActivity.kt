@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
         timerTextView = findViewById(R.id.timer_textview)
         scoreTextView = findViewById(R.id.score_textview)
-        scoreTextView.text = getString(R.string.score_text, score)
+        scoreTextView.text = score.toString()
 
         val (rows, cols, timeLimit) = when (level) {
             "easy" -> Triple(2, 2, 30000L)
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         if (card1.tag == card2.tag) {
             pairsFound++
             score += 100
-            scoreTextView.text = getString(R.string.score_text, score)
+            scoreTextView.text = score.toString()
 
             animateMatch(card1)
             animateMatch(card2)

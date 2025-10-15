@@ -17,15 +17,35 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Time: 60" />
 
-    <TextView
-        android:id="@+id/score_textview"
+    <LinearLayout
+        android:id="@+id/score_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_textview"
-        tools:text="Score: 0" />
+        app:layout_constraintTop_toBottomOf="@+id/timer_textview">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_label"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/score_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixel"
+            android:letterSpacing="0.05"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            app:strokeColor="#c7155f"
+            app:strokeWidth="4dp"
+            tools:text="0" />
+    </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
@@ -33,10 +53,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:alignmentMode="alignMargins"
-        app:useDefaultMargins="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/score_layout"
+        app:useDefaultMargins="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

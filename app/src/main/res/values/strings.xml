@@ -2,6 +2,7 @@
     <string name="app_name">Paw-Pair-Memory-Game</string>
     <string name="timer_text">Time: %1$d</string>
     <string name="score_text">Score: %1$d</string>
+    <string name="score_label">Score</string>
     <string name="game_over_title">Game Over</string>
     <string name="play_again">Play Again</string>
     <string name="home">Home</string>
