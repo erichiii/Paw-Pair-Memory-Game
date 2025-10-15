@@ -7,7 +7,7 @@
     <string name="home">Home</string>
     <string name="congratulations_message">Congratulations! You found all the pairs.\n\nMatch Points: %1$d\nTime Bonus: %2$d\nFinal Score: %3$d</string>
     <string name="time_up_message">Game Over! You ran out of time.\n\nFinal Score: %1$d</string>
-    <string name="home_title">Paw Pair!</string>
+    <string name="home_title">PAW PAIR!</string>
     <string name="easy_button_text">Easy</string>
     <string name="medium_button_text">Medium</string>
     <string name="hard_button_text">Hard</string>

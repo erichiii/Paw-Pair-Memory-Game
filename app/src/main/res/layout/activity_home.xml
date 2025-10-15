@@ -17,25 +17,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/game_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/modak_regular"
+            android:fontFamily="@font/pixel"
+            android:letterSpacing="0.05"
             android:text="@string/home_title"
-            android:textColor="#311B92"
+            android:textColor="@android:color/white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.244"
+            app:strokeColor="#c7155f"
+            app:strokeWidth="4dp" />
 
         <ImageButton
             android:id="@+id/easy_button"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="36dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:contentDescription="@string/easy_button_text"
@@ -44,18 +47,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/game_title" />
+            app:layout_constraintTop_toBottomOf="@id/game_title" />
 
         <ImageButton
             android:id="@+id/medium_button"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:contentDescription="@string/medium_button_text"
-            android:src="@drawable/medium_button"
-            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:src="@drawable/medium_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/easy_button" />
@@ -65,11 +68,11 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:contentDescription="@string/hard_button_text"
-            android:src="@drawable/hard_button"
-            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:src="@drawable/hard_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/medium_button" />
