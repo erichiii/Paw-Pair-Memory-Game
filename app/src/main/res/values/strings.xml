@@ -12,4 +12,5 @@
     <string name="easy_button_text">Easy</string>
     <string name="medium_button_text">Medium</string>
     <string name="hard_button_text">Hard</string>
+    <string name="pause_button">Pause</string>
 </resources>

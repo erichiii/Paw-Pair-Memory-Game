@@ -10,6 +10,7 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -37,15 +38,28 @@ class MainActivity : AppCompatActivity() {
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var level: String
 
+    private var isPaused = false
+    private lateinit var pauseButton: ImageButton
+    private lateinit var gridLayout: GridLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         level = intent.getStringExtra("level") ?: "easy"
-        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+        gridLayout = findViewById(R.id.gridLayout)
         timerTextView = findViewById(R.id.timer_textview)
         scoreTextView = findViewById(R.id.score_textview)
         scoreTextView.text = score.toString()
+
+        pauseButton = findViewById(R.id.pause_button)
+        pauseButton.setOnClickListener {
+            if (isPaused) {
+                resumeGame()
+            } else {
+                pauseGame()
+            }
+        }
 
         val (rows, cols, timeLimit) = when (level) {
             "easy" -> Triple(2, 2, 30000L)
@@ -125,11 +139,26 @@ class MainActivity : AppCompatActivity() {
             gridLayout.addView(imageView)
 
             imageView.setOnClickListener {
+                if (isPaused) return@setOnClickListener
                 if (!isChecking && !isFlipped[i] && flippedCards.size < 2) {
                     flipCard(imageView, i)
                 }
             }
         }
+    }
+
+    private fun pauseGame() {
+        isPaused = true
+        countDownTimer.cancel()
+        pauseButton.setImageResource(android.R.drawable.ic_media_play)
+        gridLayout.alpha = 0.5f
+    }
+
+    private fun resumeGame() {
+        isPaused = false
+        startTimer(timeLeft * 1000)
+        pauseButton.setImageResource(android.R.drawable.ic_media_pause)
+        gridLayout.alpha = 1.0f
     }
 
     private fun startTimer(timeLimit: Long) {
@@ -260,6 +289,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun endGame(allPairsFound: Boolean) {
         countDownTimer.cancel()
+        pauseButton.isClickable = false
 
         val timeBonus = if (allPairsFound) timeLeft * 5 else 0
         val difficultyMultiplier = when (level) {
