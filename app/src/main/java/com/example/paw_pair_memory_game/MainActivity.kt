@@ -17,6 +17,9 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.gridlayout.widget.GridLayout
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        hideSystemUI()
 
         level = intent.getStringExtra("level") ?: "easy"
         gridLayout = findViewById(R.id.gridLayout)
@@ -162,6 +166,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun hideSystemUI() {
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+    }
+
     private fun pauseGame() {
         isPaused = true
         MusicManager.pause()
@@ -196,6 +207,7 @@ class MainActivity : AppCompatActivity() {
         gridLayout.alpha = 1.0f
         startTimer(timeLeft * 1000)
         pauseButton.setImageResource(android.R.drawable.ic_media_pause)
+        hideSystemUI()
     }
 
     override fun onPause() {
@@ -211,6 +223,7 @@ class MainActivity : AppCompatActivity() {
             MusicManager.resume()
             MusicManager.fadeTo(0.3f, 500)
         }
+        hideSystemUI()
     }
 
     override fun onDestroy() {
