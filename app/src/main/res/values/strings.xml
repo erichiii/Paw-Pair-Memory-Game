@@ -4,7 +4,9 @@
     <string name="score_text">Score: %1$d</string>
     <string name="score_label">Score</string>
     <string name="game_over_title">Game Over</string>
+    <string name="game_paused_title">Game Paused</string>
     <string name="play_again">Play Again</string>
+    <string name="retry">Retry</string>
     <string name="home">Home</string>
     <string name="congratulations_message">Congratulations! You found all the pairs.\n\nMatch Points: %1$d\nTime Bonus: %2$d\nFinal Score: %3$d</string>
     <string name="time_up_message">Game Over! You ran out of time.\n\nFinal Score: %1$d</string>

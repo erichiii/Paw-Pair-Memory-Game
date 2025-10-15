@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var isPaused = false
     private lateinit var pauseButton: ImageButton
     private lateinit var gridLayout: GridLayout
+    private var pauseDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,15 +151,34 @@ class MainActivity : AppCompatActivity() {
     private fun pauseGame() {
         isPaused = true
         countDownTimer.cancel()
-        pauseButton.setImageResource(android.R.drawable.ic_media_play)
         gridLayout.alpha = 0.5f
+        pauseButton.setImageResource(android.R.drawable.ic_media_play)
+
+        pauseDialog = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.game_paused_title))
+            .setPositiveButton(getString(R.string.retry)) { _, _ ->
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("level", level)
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton(getString(R.string.home)) { _, _ ->
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .setOnCancelListener {
+                resumeGame()
+            }
+            .show()
     }
 
     private fun resumeGame() {
+        pauseDialog?.dismiss()
         isPaused = false
+        gridLayout.alpha = 1.0f
         startTimer(timeLeft * 1000)
         pauseButton.setImageResource(android.R.drawable.ic_media_pause)
-        gridLayout.alpha = 1.0f
     }
 
     private fun startTimer(timeLimit: Long) {
