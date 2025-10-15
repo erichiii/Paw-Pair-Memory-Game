@@ -13,6 +13,7 @@ import android.util.TypedValue
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -56,6 +57,12 @@ class MainActivity : AppCompatActivity() {
 
         SoundPlayer.initialize(this)
         MusicManager.fadeTo(0.3f, 500)
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (!isPaused) {
+                pauseGame()
+            }
+        }
 
         pauseButton = findViewById(R.id.pause_button)
         pauseButton.setOnClickListener {
@@ -283,10 +290,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
-                var flippedBackCount = 0
+                var flippedBack_count = 0
                 val onFlippedBack = {
-                    flippedBackCount++
-                    if (flippedBackCount == 2) {
+                    flippedBack_count++
+                    if (flippedBack_count == 2) {
                         flippedCards.clear()
                         isChecking = false
                         isAnimating = false

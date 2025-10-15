@@ -3,6 +3,8 @@ package com.example.paw_pair_memory_game
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -12,6 +14,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         MusicManager.start(this, volume = 1.0f)
+
+        onBackPressedDispatcher.addCallback(this) {
+            showExitDialog()
+        }
 
         val easyButton = findViewById<ImageButton>(R.id.easy_button)
         val mediumButton = findViewById<ImageButton>(R.id.medium_button)
@@ -34,6 +40,17 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("level", "hard")
             startActivity(intent)
         }
+    }
+
+    private fun showExitDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Exit Game")
+            .setMessage("Are you sure you want to exit?")
+            .setPositiveButton("Exit") { _, _ ->
+                finishAffinity()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onResume() {
