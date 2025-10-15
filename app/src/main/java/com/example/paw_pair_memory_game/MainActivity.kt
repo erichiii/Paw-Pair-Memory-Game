@@ -10,6 +10,7 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -45,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var level: String
 
+    private var comboCount = 0
+    private lateinit var comboTextView: TextView
+    private var baseScore = 0
+
     private var isPaused = false
     private lateinit var pauseButton: ImageButton
     private lateinit var gridLayout: GridLayout
@@ -60,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         timerTextView = findViewById(R.id.timer_textview)
         timerProgressBar = findViewById(R.id.timer_progress_bar)
         scoreTextView = findViewById(R.id.score_textview)
+        comboTextView = findViewById(R.id.combo_textview)
         scoreTextView.text = score.toString()
 
         SoundPlayer.initialize(this)
@@ -293,8 +299,21 @@ class MainActivity : AppCompatActivity() {
 
         if (card1.tag == card2.tag) {
             pairsFound++
-            score += 100
+            comboCount++
+
+            val comboMultiplier = 1 + (comboCount / 2)
+            val points = 100 * comboMultiplier
+            score += points
+            baseScore += 100
+
+
             scoreTextView.text = score.toString()
+            if (comboCount > 1) {
+                comboTextView.text = getString(R.string.combo_text, comboCount)
+                comboTextView.visibility = View.VISIBLE
+            }
+
+
 
             animateMatch(card1)
             animateMatch(card2)
@@ -310,6 +329,8 @@ class MainActivity : AppCompatActivity() {
                 endGame(true)
             }
         } else {
+            comboCount = 0
+            comboTextView.visibility = View.GONE
             Handler(Looper.getMainLooper()).postDelayed({
                 var flippedBackCount = 0
                 val onFlippedBack = {
@@ -388,14 +409,19 @@ class MainActivity : AppCompatActivity() {
             else -> 1.0
         }
 
-        val finalScore = ((score + timeBonus) * difficultyMultiplier).toInt()
+        val comboBonus = score - baseScore
+        val finalScore = ((baseScore + timeBonus + comboBonus) * difficultyMultiplier).toInt()
 
         val title: String
         val message: String
 
         if (allPairsFound) {
             title = getString(R.string.you_win_title)
-            message = getString(R.string.congratulations_message, score, timeBonus.toInt(), difficultyMultiplier, finalScore)
+            message = "Base Score: $baseScore\n" +
+                    "Time Bonus: $timeBonus\n" +
+                    "Combo Bonus: $comboBonus\n" +
+                    "Difficulty Multiplier: x$difficultyMultiplier\n" +
+                    "Final Score: $finalScore"
         } else {
             title = getString(R.string.game_over_title)
             message = getString(R.string.time_up_message, finalScore)
@@ -417,5 +443,4 @@ class MainActivity : AppCompatActivity() {
             }
             .setCancelable(false)
             .show()
-    }
-}
+    }}

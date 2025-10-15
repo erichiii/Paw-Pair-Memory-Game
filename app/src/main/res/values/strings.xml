@@ -9,7 +9,7 @@
     <string name="play_again">Play Again</string>
     <string name="retry">Retry</string>
     <string name="home">Home</string>
-    <string name="congratulations_message">Congratulations! You found all the pairs.\n\nMatch Points: %1$d\nTime Bonus: %2$d\nMultiplier: x%3$.1f\nFinal Score: %4$d</string>
+    <string name="congratulations_message">Congratulations! You found all the pairs.\n\nFinal Score: %4$d</string>
     <string name="time_up_message">Game Over! You ran out of time.\n\nFinal Score: %1$d</string>
     <string name="home_title">PAW PAIR!</string>
     <string name="easy_button_text">Easy</string>
@@ -17,4 +17,5 @@
     <string name="hard_button_text">Hard</string>
     <string name="pause_button">Pause</string>
     <string name="author_name">202311538 : Angel Letada</string>
+    <string name="combo_text">Combo x%d</string>
 </resources>

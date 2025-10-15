@@ -79,6 +79,18 @@
             app:strokeColor="#c7155f"
             app:strokeWidth="4dp"
             tools:text="0" />
+
+        <TextView
+            android:id="@+id/combo_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pixel"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:visibility="gone"
+            tools:text="Combo x2" />
+
     </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
