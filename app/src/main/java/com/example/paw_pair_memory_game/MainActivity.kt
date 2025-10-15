@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             TypedValue.COMPLEX_UNIT_DIP, gridMarginInDp, displayMetrics
         ).toInt()
 
-        val cardMarginInDp = 8f // Default margin for useDefaultMargins
+        val cardMarginInDp = 8f
         val cardMarginInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, cardMarginInDp, displayMetrics
         ).toInt()
@@ -119,13 +119,13 @@ class MainActivity : AppCompatActivity() {
             imageView.setBackgroundResource(cardBack)
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
             imageView.setPadding(0, 0, 0, 0)
-            imageView.setImageDrawable(null) // Ensure card is blank initially
+            imageView.setImageDrawable(null)
             imageView.tag = cardIcons[i]
             imageViews.add(imageView)
             gridLayout.addView(imageView)
 
             imageView.setOnClickListener {
-                if (!isChecking && !isFlipped[i]) {
+                if (!isChecking && !isFlipped[i] && flippedCards.size < 2) {
                     flipCard(imageView, i)
                 }
             }
@@ -190,15 +190,15 @@ class MainActivity : AppCompatActivity() {
             scoreTextView.text = getString(R.string.score_text, score)
 
             animateMatch(card1)
-            animateMatch(card2) {
-                card1.isClickable = false
-                card2.isClickable = false
-                flippedCards.clear()
-                isChecking = false
+            animateMatch(card2)
 
-                if (pairsFound == cardIcons.size / 2) {
-                    endGame(true)
-                }
+            card1.isClickable = false
+            card2.isClickable = false
+            flippedCards.clear()
+            isChecking = false
+
+            if (pairsFound == cardIcons.size / 2) {
+                endGame(true)
             }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -206,13 +206,11 @@ class MainActivity : AppCompatActivity() {
                 val index2 = imageViews.indexOf(card2)
                 flipBack(card1, index1)
                 flipBack(card2, index2)
-                flippedCards.clear()
-                isChecking = false
             }, 1000)
         }
     }
 
-    private fun animateMatch(card: ImageView, onEnd: (() -> Unit)? = null) {
+    private fun animateMatch(card: ImageView) {
         val animatorSet = AnimatorSet()
         val scaleX = ObjectAnimator.ofFloat(card, "scaleX", 1f, 1.1f, 1f)
         val scaleY = ObjectAnimator.ofFloat(card, "scaleY", 1f, 1.1f, 1f)
@@ -226,13 +224,6 @@ class MainActivity : AppCompatActivity() {
 
         animatorSet.playTogether(scaleX, scaleY, elevationAnimator)
         animatorSet.duration = 600
-        onEnd?.let {
-            animatorSet.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    it()
-                }
-            })
-        }
         animatorSet.start()
     }
 
@@ -249,8 +240,18 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
                 imageView.setBackgroundResource(cardBack)
-                imageView.setImageDrawable(null) // Hide the icon
+                imageView.setImageDrawable(null)
                 oa2.start()
+            }
+        })
+
+        oa2.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                if(flippedCards.size == 2) {
+                    flippedCards.clear()
+                    isChecking = false
+                }
             }
         })
 
@@ -271,7 +272,7 @@ class MainActivity : AppCompatActivity() {
         val finalScore = ((score + timeBonus) * difficultyMultiplier).toInt()
 
         val message = if (allPairsFound) {
-            getString(R.string.congratulations_message, score, timeBonus, finalScore)
+            getString(R.string.congratulations_message, score, timeBonus.toInt(), finalScore)
         } else {
             getString(R.string.time_up_message, finalScore)
         }
