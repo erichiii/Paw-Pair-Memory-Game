@@ -2,7 +2,7 @@ package com.example.paw_pair_memory_game
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -11,9 +11,9 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val easyButton = findViewById<Button>(R.id.easy_button)
-        val mediumButton = findViewById<Button>(R.id.medium_button)
-        val hardButton = findViewById<Button>(R.id.hard_button)
+        val easyButton = findViewById<ImageButton>(R.id.easy_button)
+        val mediumButton = findViewById<ImageButton>(R.id.medium_button)
+        val hardButton = findViewById<ImageButton>(R.id.hard_button)
 
         easyButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
