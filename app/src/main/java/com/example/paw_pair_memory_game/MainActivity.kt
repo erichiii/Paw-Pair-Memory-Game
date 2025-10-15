@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private val flippedCards = mutableListOf<ImageView>()
     private var isChecking = false
+    private var isAnimating = false
 
     private lateinit var timerTextView: TextView
     private lateinit var scoreTextView: TextView
@@ -140,7 +141,7 @@ class MainActivity : AppCompatActivity() {
             gridLayout.addView(imageView)
 
             imageView.setOnClickListener {
-                if (isPaused) return@setOnClickListener
+                if (isPaused || isAnimating) return@setOnClickListener
                 if (!isChecking && !isFlipped[i] && flippedCards.size < 2) {
                     flipCard(imageView, i)
                     if (flippedCards.size == 2) {
@@ -199,6 +200,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun flipCard(imageView: ImageView, index: Int) {
+        isAnimating = true
         isFlipped[index] = true
         flippedCards.add(imageView)
 
@@ -222,6 +224,7 @@ class MainActivity : AppCompatActivity() {
         oa2.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
+                isAnimating = false
                 if (flippedCards.size == 2) {
                     checkForMatch()
                 }
@@ -253,11 +256,22 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
+                var flippedBackCount = 0
+                val onFlippedBack = {
+                    flippedBackCount++
+                    if (flippedBackCount == 2) {
+                        flippedCards.clear()
+                        isChecking = false
+                        isAnimating = false
+                    }
+                }
+
                 val index1 = imageViews.indexOf(card1)
                 val index2 = imageViews.indexOf(card2)
-                flipBack(card1, index1)
-                flipBack(card2, index2)
-            }, 500)
+                isAnimating = true
+                flipBack(card1, index1, onFlippedBack)
+                flipBack(card2, index2, onFlippedBack)
+            }, 1000)
         }
     }
 
@@ -278,7 +292,7 @@ class MainActivity : AppCompatActivity() {
         animatorSet.start()
     }
 
-    private fun flipBack(imageView: ImageView, index: Int) {
+    private fun flipBack(imageView: ImageView, index: Int, onEnd: () -> Unit) {
         isFlipped[index] = false
 
         val oa1 = ObjectAnimator.ofFloat(imageView, "rotationY", 0f, 90f)
@@ -299,10 +313,7 @@ class MainActivity : AppCompatActivity() {
         oa2.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
-                if(flippedCards.size == 2) {
-                    flippedCards.clear()
-                    isChecking = false
-                }
+                onEnd()
             }
         })
 
