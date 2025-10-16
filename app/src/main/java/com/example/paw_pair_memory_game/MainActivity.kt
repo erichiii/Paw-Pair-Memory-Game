@@ -301,18 +301,24 @@ class MainActivity : AppCompatActivity() {
             pairsFound++
             comboCount++
 
+            val difficultyMultiplier = when (level) {
+                "easy" -> 1.0
+                "medium" -> 1.5
+                "hard" -> 2.0
+                else -> 1.0
+            }
+
             val comboMultiplier = 1 + (comboCount / 2)
-            val points = 100 * comboMultiplier
+            val points = (100 * difficultyMultiplier * comboMultiplier).toInt()
             score += points
-            baseScore += 100
+            baseScore += (100 * difficultyMultiplier).toInt()
 
 
             scoreTextView.text = score.toString()
             if (comboCount > 1) {
-                comboTextView.text = getString(R.string.combo_text, comboCount)
+                comboTextView.text = "Combo x$comboCount"
                 comboTextView.visibility = View.VISIBLE
             }
-
 
 
             animateMatch(card1)
@@ -401,30 +407,18 @@ class MainActivity : AppCompatActivity() {
         pauseButton.isClickable = false
         MusicManager.fadeTo(1.0f, 1000)
 
-        val timeBonus = if (allPairsFound) timeLeft * 5 else 0
-        val difficultyMultiplier = when (level) {
-            "easy" -> 1.0
-            "medium" -> 1.5
-            "hard" -> 2.0
-            else -> 1.0
-        }
-
         val comboBonus = score - baseScore
-        val finalScore = ((baseScore + timeBonus + comboBonus) * difficultyMultiplier).toInt()
+        val finalScore = score
 
         val title: String
         val message: String
 
         if (allPairsFound) {
             title = getString(R.string.you_win_title)
-            message = "Base Score: $baseScore\n" +
-                    "Time Bonus: $timeBonus\n" +
-                    "Combo Bonus: $comboBonus\n" +
-                    "Difficulty Multiplier: x$difficultyMultiplier\n" +
-                    "Final Score: $finalScore"
+            message = getString(R.string.congratulations_message, baseScore, comboBonus, finalScore)
         } else {
             title = getString(R.string.game_over_title)
-            message = getString(R.string.time_up_message, finalScore)
+            message = getString(R.string.time_up_message_with_score, baseScore, comboBonus, finalScore)
         }
 
         AlertDialog.Builder(this)
